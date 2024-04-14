@@ -51,3 +51,47 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+
+
+
+.custom-alert-box {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: auto;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.custom-alert-msg {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%;
+    text-align: center; /* Center the text horizontally */
+    display: flex; /* Use flexbox to center vertically */
+    justify-content: center; /* Center content horizontally in the flex container */
+    align-items: center; /* Center content vertically in the flex container */
+    height: 100%; /* Make the message take up the full height of the alert box */
+}
+
+.custom-alert-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.custom-alert-close:hover,
+.custom-alert-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

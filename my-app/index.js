@@ -22,6 +22,8 @@ function createDatabase() {
         password TEXT,
         role TEXT
     )`);
+    // Insert default admin user if not exists wirh user_id=1
+    // db.run(`INSERT OR IGNORE INTO Users (user_id, username, password, role) VALUES (1, 'admin', 'admin', 'admin')`);
 
     // Create Products table
     db.run(`CREATE TABLE IF NOT EXISTS Products (
@@ -33,11 +35,15 @@ function createDatabase() {
     )`);
 
     // Create Orders table
+
+    // db.run(`DROP TABLE IF EXISTS Orders`);
+
     db.run(`CREATE TABLE IF NOT EXISTS Orders (
         order_id INTEGER PRIMARY KEY,
         employee_id INTEGER,
         order_date TEXT,
-        status TEXT
+        status TEXT,
+        FOREIGN KEY (employee_id) REFERENCES Users(user_id)
     )`);
 
     // Create Order Details table

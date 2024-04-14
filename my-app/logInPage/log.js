@@ -3,30 +3,31 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Function to authenticate user
-function authenticateUser(username, password, role) {
+function authenticateUser(username, password) {
     return new Promise((resolve, reject) => {
-        // Connect to the SQLite database
-        const db = new sqlite3.Database('../dataBase/data.db', sqlite3.OPEN_READONLY, (err) => {
+
+        const db = new sqlite3.Database('dataBase/data.db', (err) => {
             if (err) {
                 console.error('Error opening database: ', err.message);
-                reject(err);
+                reject(err.message);
             } else {
                 console.log('Connected to the SQLite database.');
+            }
+        });
 
-                // Prepare SQL query to check user credentials
-                const sql = `SELECT * FROM Users WHERE username = ? AND password = ? AND role = ?`;
-                db.get(sql, [username, password, role], (err, row) => {
-                    if (err) {
-                        console.error('Error querying database: ', err.message);
-                        reject(err);
-                    } else {
-                        if (row) {
-                            resolve({ username: row.username, role: row.role }); // User authenticated successfully
-                        } else {
-                            reject('Invalid username, password, or role');
-                        }
-                    }
-                });
+        // Find user in the Users table
+        db.get(`SELECT * FROM Users WHERE username = ? AND password = ?`, [username, password], (err, row) => {
+            if (err) {
+                console.error('Error finding user: ', err.message);
+                reject(err.message);
+            } else {
+                if (row) {
+                    console.log('User found: ', row);
+                    resolve(row);
+                } else {
+                    console.error('User not found.');
+                    reject('User not found.');
+                }
             }
         });
 
@@ -45,33 +46,56 @@ document.addEventListener("DOMContentLoaded", function() {
     // Add event listener when DOM content is fully loaded
     document.getElementById("loginForm").addEventListener("submit", function(event) {
 
-        console.log("Form submitted.");
         event.preventDefault(); // Prevent form submission
-
-        console.log("Form submitted.");
 
         // Get form values
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         var role = document.getElementById("role").value;
-
         // Authenticate user
-        authenticateUser(username, password, role)
+        authenticateUser(username, password)
             .then((user) => {
-                // User authenticated successfully
-                console.log("Login successful. User:", user);
-                // Redirect to dashboard or another page
+                console.log('User authenticated: ', user);
+                customAlert('User authenticated: ' + user.username + ' (' + user.role + ')');
+
+                if(role == "admin"){
+                    window.location.href = "../adminPage/admin.html";
+                } else if(role == "employee"){
+                    window.location.href = "../employeePage/employee.html";
+                }
+                
             })
-            .catch((error) => {
-                // Authentication failed
-                console.error("Login failed:", error);
-                // Display error message to the user
+            .catch((err) => {
+                console.error('Error authenticating user: ', err);
+
+                customAlert("Invalid username or password.");
+
             });
     });
-    
-    // Button click event to go to registration page
+
+    /// go to register page
+
     document.getElementById("registerButton").addEventListener("click", function() {
-        // Redirect to registration page
         window.location.href = "../registrationPage/registration.html";
     });
+
+});
+
+
+/// create custom alert
+function customAlert(msg) {
+    // Get the custom alert box and message elements
+    let alertBox = document.getElementById('customAlertBox');
+    let alertMsg = document.getElementById('customAlertMsg');
+
+    // Set the alert message
+    alertMsg.textContent = msg;
+
+    // Show the custom alert box
+    alertBox.style.display = 'block';
+}
+
+// Close the custom alert box when the close button is clicked
+document.getElementById('customAlertClose').addEventListener('click', function() {
+    document.getElementById('customAlertBox').style.display = 'none';
 });
