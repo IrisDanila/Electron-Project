@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Page</title>
+    <link rel="stylesheet" type="text/css" href="employee.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Order Summary</h1>
+        <button id="viewOrder">View Order</button>
+        <table id="orderSummary">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Total Quantity</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Order summary data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <h1>Add Order</h1>
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="productName">Product Name:</label>
+                <input type="text" id="productName" name="productName">
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity">
+            </div>
+            <button type="submit">Add to Order</button>
+        </form>
+    </div>
+
+
+    <div id="customAlertBox" class="custom-alert-box">
+        <span id="customAlertMsg" class="custom-alert-msg"></span>
+        <button id="customAlertClose" class="custom-alert-close">Close</button>
+    </div>
+
+    <script src="employee.js"></script>
+
+</body>

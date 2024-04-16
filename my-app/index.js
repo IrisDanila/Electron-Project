@@ -34,25 +34,26 @@ function createDatabase() {
         price REAL
     )`);
 
+    // Add products to the Products table
+    db.run(`INSERT OR IGNORE INTO Products (product_id, name, description, quantity, price) VALUES (1, 'Product 1', 'Description for Product 1', 10, 100.00)`);
+    db.run(`INSERT OR IGNORE INTO Products (product_id, name, description, quantity, price) VALUES (2, 'Product 2', 'Description for Product 2', 20, 200.00)`);
+    db.run(`INSERT OR IGNORE INTO Products (product_id, name, description, quantity, price) VALUES (3, 'Product 3', 'Description for Product 3', 30, 300.00)`);
+    db.run(`INSERT OR IGNORE INTO Products (product_id, name, description, quantity, price) VALUES (4, 'Product 4', 'Description for Product 4', 40, 400.00)`);
+
     // Create Orders table
 
     // db.run(`DROP TABLE IF EXISTS Orders`);
 
-    db.run(`CREATE TABLE IF NOT EXISTS Orders (
-        order_id INTEGER PRIMARY KEY,
-        employee_id INTEGER,
-        order_date TEXT,
-        status TEXT,
-        FOREIGN KEY (employee_id) REFERENCES Users(user_id)
-    )`);
-
     // Create Order Details table
+
+     db.run(`DROP TABLE IF EXISTS Order_Details`);
+
     db.run(`CREATE TABLE IF NOT EXISTS Order_Details (
         order_detail_id INTEGER PRIMARY KEY,
-        order_id INTEGER,
         product_id INTEGER,
+        product_name TEXT,
         quantity INTEGER,
-        FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+        total_price REAL,
         FOREIGN KEY (product_id) REFERENCES Products(product_id)
     )`);
 }
