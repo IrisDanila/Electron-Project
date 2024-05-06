@@ -70,7 +70,7 @@ app.on('ready', () => {
         }
     });
 
-    mainWindow.loadFile('loginPage/log.html');
+    mainWindow.loadFile('new_rl/new_register_login.html');
 
     // Create the SQLite database and tables
     createDatabase();
