@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+      <link rel="stylesheet" href="new_rl_style.css">
+      <script src="https://kit.fontawesome.com/cda358d5a3.js" crossorigin="anonymous"></script>
+      <title>LoginPage | MyFridge</title>
+</head>
+<body>
+      <div class="container" id="container">
+            <div class="form-container sign-up">
+                  <form id="registrationForm">
+                        <h1>Create Account</h1>
+                        <div class="social-icons">
+
+                        </div>
+                        <span>use your email for registeration</span>
+                        <div class="role-container">
+                              <label for="role">Role:</label>
+                              <select id="roleInput" name="role">
+                                    <option value="admin">Admin</option>
+                                    <option value="employee">Employee</option>
+                              </select>
+                        </div>
+                        <input type="text" id="lastNameInput" placeholder="Full name">
+                        <input type="email" id="emailInput" placeholder="Email"> 
+                        <div class="password-container">
+                              <input type="password" placeholder="Password" id="passwordInput">
+                              <div class="password-strength" id="passwordStrength"></div>
+                              <i class="fas fa-eye" id="togglePassword"></i>
+                        </div>
+                        <button id="signupButton">Sign up</button>
+                  </form>
+            </div>
+            <div class="form-container sign-in">
+                  <form id="loginForm">
+                        <h1>Sign In</h1>
+                        <span>use your email and password</span>
+                        <input type="email" placeholder="Email" id="emailInputLogin">
+                        <div class="password-container-login">
+                              <input type="password" placeholder="Password" id="passwordInputLogin">
+                              <i class="fas fa-eye" id="togglePasswordLogin"></i>
+                        </div>
+
+                        <div class="role-container">
+                              <label for="role">Role:</label>
+                              <select id="role" name="role">
+                                    <option value="admin">Admin</option>
+                                    <option value="employee">Employee</option>
+                              </select>
+                        </div>
+
+                        <a href="#"> Forgot Your Passoword?</a>
+                        <button id="signinButton">Sign in</button>
+                        <div class="incorrectCredentials" id="incorrectCredentialsAlert">
+                              <span class="incorrectCredentialsMessage"> Email and/or password incorrect !</span>
+                        </div>
+                  </form>
+            </div>
+            <div class="toggle-container">
+                  <div class="toggle">
+                        <div class="toggle-panel toggle-left">
+                              <h1>Welcome to MYFridge!</h1>
+                              <p>Enter your personal details to log in to your account !</p>
+                              <button class="hidden" id="login">Log in</button>
+                        </div>
+                        <div class="toggle-panel toggle-right">
+                              <h1>Welcome to MYFridge!</h1>
+                              <p>Register with your personal details </p>
+                              <button class="hidden" id="register">Sign up</button>
+                        </div>
+                  </div>
+            </div>
+      </div>
+      <script src="new_rl_script.js"></script>
+</body>
+</html>
