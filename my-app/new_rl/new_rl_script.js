@@ -18,7 +18,7 @@ document.getElementById('signupButton').addEventListener('click', function (even
         if (document.querySelector('.form-container.sign-up input[placeholder="Full name"]').value !== ''){
             if (goodRegisterEmail){
                 if (goodRegisterPassword){
-                    registerUser(event);
+                    alert('User registered successfully !');
                 }
                 else {
                     alert('Password not strong enough, please introduce a valid password !');
@@ -181,9 +181,48 @@ function registerUser(username, password, role) {
     });
 }
 
+function authenticateUser(username, password) {
+    return new Promise((resolve, reject) => {
+
+        const db = new sqlite3.Database('dataBase/data.db', (err) => {
+            if (err) {
+                console.error('Error opening database: ', err.message);
+                reject(err.message);
+            } else {
+                console.log('Connected to the SQLite database.');
+            }
+        });
+
+        // Find user in the Users table
+        db.get(`SELECT * FROM Users WHERE username = ? AND password = ?`, [username, password], (err, row) => {
+            if (err) {
+                console.error('Error finding user: ', err.message);
+                reject(err.message);
+            } else {
+                if (row) {
+                    console.log('User found: ', row);
+                    resolve(row);
+                } else {
+                    console.error('User not found.');
+                    reject('User not found.');
+                }
+            }
+        });
+
+        // Close the database connection
+        db.close((err) => {
+            if (err) {
+                console.error('Error closing database: ', err.message);
+            } else {
+                console.log('Database connection closed.');
+            }
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     // Add event listener when DOM content is fully loaded
-    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+    document.getElementById("signupButton").addEventListener("click", function(event) {
         event.preventDefault(); // Prevent form submission
 
         console.log("Form submitted.");
@@ -207,8 +246,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
             });
     });
-});
 
-function goToLogin() {
-    window.location.href = "../loginPage/log.html";
-}
+    document.getElementById("signinButton").addEventListener("click", function(event) {
+
+        event.preventDefault(); // Prevent form submission
+
+        // Get form values
+        var email = document.getElementById("emailInputLogin").value;
+        var password = document.getElementById("passwordInputLogin").value;
+        var role = document.getElementById("roleInputLogin").value;
+        // Authenticate user
+        authenticateUser(email, password)
+            .then((user) => {
+                console.log('User authenticated: ', user);
+                console.log(email, password, role);
+                if(user.role === "admin"){
+                    window.location.href = "../adminPage/admin.html";
+                } else if(user.role === "employee"){
+                    window.location.href = "../employeePage/employee.html";
+                }
+                
+            })
+            .catch((err) => {
+                console.error('Error authenticating user: ', err);
+
+            });
+    });
+});
