@@ -81,6 +81,80 @@ function addToOrder(quantity, productName) {
     });
 }
 
+
+function populateProductDropdown() {
+    return new Promise((resolve, reject) => {
+        const db = new sqlite3.Database('dataBase/data.db', (err) => {
+            if (err) {
+                console.error('Error opening database: ', err.message);
+                reject(err.message);
+            } else {
+                console.log('Connected to the SQLite database.');
+            }
+        });
+
+        db.all(`SELECT name FROM Products`, [], (err, rows) => {
+            if (err) {
+                console.error('Error fetching products: ', err.message);
+                reject(err.message);
+            } else {
+                resolve(rows);
+            }
+        });
+
+        db.close((err) => {
+            if (err) {
+                console.error('Error closing database: ', err.message);
+            } else {
+                console.log('Database connection closed.');
+            }
+        });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Populate the dropdown menu with product names
+    populateProductDropdown()
+    .then((products) => {
+        const dropdown = document.getElementById('productNameDropDown');
+        products.forEach(product => {
+            const option = document.createElement('option');
+            option.value = product.name;
+            option.textContent = product.name;
+            dropdown.appendChild(option);
+        });
+    })
+    .catch((error) => {
+        customAlert('Error fetching products: ' + error);
+    });
+
+document.getElementById("orderFormDropDown").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Get form values
+    var quantity = document.getElementById("quantityDropDown").value;
+    var productName = document.getElementById("productNameDropDown").value;
+
+    // Call function to add to order
+    addToOrder(quantity, productName)
+        .then((orderId) => {
+            // Order successful
+            customAlert('Order added with ID: ' + orderId);
+        })
+        .catch((error) => {
+            customAlert('Error adding order: ' + error);
+        });
+    });
+
+
+    // Close the custom alert box when the close button is clicked
+    document.getElementById('customAlertClose').addEventListener('click', function() {
+        document.getElementById('customAlertBox').style.display = 'none';
+    });
+});
+
+
+
 function showOrders() {
     return new Promise((resolve, reject) => {
         const db = new sqlite3.Database('dataBase/data.db', (err) => {
@@ -116,6 +190,57 @@ function showOrders() {
         });
     });
 }
+
+
+function viewInventory() 
+{
+    return new Promise((resolve, reject) => {
+        const db = new sqlite3.Database('dataBase/data.db', (err) => {
+            if (err) {
+                console.error('Error opening database: ', err.message);
+                reject(err.message);
+            } else {
+                console.log('Connected to the SQLite database.');
+            }
+        });
+
+        db.all(`SELECT * FROM Inventory`, [], (err, rows) => {
+            if (err) {
+                console.error('Error finding inventory: ', err.message);
+                reject(err.message);
+            } else {
+                if (rows) {
+                    console.log('Inventory found: ', rows);
+                    resolve(rows);
+                } else {
+                    console.error('No inventory found.');
+                    reject('No inventory found.');
+                }
+            }
+        });
+
+        db.close((err) => {
+            if (err) {
+                console.error('Error closing database: ', err.message);
+            } else {
+                console.log('Database connection closed.');
+            }
+        });
+    });
+}
+
+function customAlert(msg) {
+    // Get the custom alert box and message elements
+    let alertBox = document.getElementById('customAlertBox');
+    let alertMsg = document.getElementById('customAlertMsg');
+
+    // Set the alert message
+    alertMsg.textContent = msg;
+
+    // Show the custom alert box
+    alertBox.style.display = 'block';
+}
+
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -160,25 +285,36 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
         });
 
+        document.getElementById("viewInventory").addEventListener("click", function(event) {
+
+            event.preventDefault(); // Prevent form submission
+            // Call function to show inventory
+            viewInventory()
+                .then((inventory) => {
+                    // Inventory found
+                    var inventoryTable = document.getElementById('InventorySummary').getElementsByTagName('tbody')[0];
+                    inventoryTable.innerHTML = '';
+
+                    inventory.forEach((product) => {
+                        var productRow = document.createElement('tr');
+                        productRow.innerHTML = `<td>${product.product_name}</td><td>${product.quantity}</td><td>${product.price}</td>`;
+                        inventoryTable.appendChild(productRow);
+                    });
+
+                })
+                .catch((error) => {
+                    customAlert('Error finding inventory: ' + error);
+                });
+
+        });
+
    
     });
-
-
-
-
-    function customAlert(msg) {
-        // Get the custom alert box and message elements
-        let alertBox = document.getElementById('customAlertBox');
-        let alertMsg = document.getElementById('customAlertMsg');
-    
-        // Set the alert message
-        alertMsg.textContent = msg;
-    
-        // Show the custom alert box
-        alertBox.style.display = 'block';
-    }
     
     // Close the custom alert box when the close button is clicked
     document.getElementById('customAlertClose').addEventListener('click', function() {
         document.getElementById('customAlertBox').style.display = 'none';
     });
+
+
+

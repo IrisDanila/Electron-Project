@@ -69,6 +69,63 @@ function showProducts() {
     });
 }
 
+function addToInventory(productName, quantity, price,product_id) 
+{
+    return new Promise((resolve, reject) => {
+        const db = new sqlite3.Database('dataBase/data.db', (err) => {
+            if (err) {
+                console.error('Error opening database: ', err.message);
+                reject(err.message);
+            } else {
+                console.log('Connected to the SQLite database.');
+            }
+        });
+
+        db.get(`SELECT * FROM Inventory WHERE product_id = ?`, [product_id], (err, row) => {
+            if (err) {
+                console.error('Error finding product: ', err.message);
+                reject(err.message);
+            } else {
+                if (row) {
+                    // Product exists, update quantity
+                    let newQuantity = Number(row.quantity) + Number(quantity);
+                    let newPrice = price*newQuantity;
+                
+                    db.run(`UPDATE Inventory SET quantity = ?, price = ? WHERE product_id = ?`, [newQuantity, newPrice, product_id], function(err) {
+                        if (err) {
+                            console.error('Error updating inventory: ', err.message);
+                            reject(err.message);
+                        } else {
+                            console.log('Inventory updated with Product ID: ', product_id);
+                            resolve(product_id);
+                        }
+                    });
+                } else {
+                    // Product doesn't exist, insert new product
+
+                    db.run(`INSERT INTO Inventory (product_id, product_name, quantity, price) VALUES (?, ?, ?, ?)`, [product_id, productName, quantity, price*quantity], function(err) {
+                        if (err) {
+                            console.error('Error inserting inventory: ', err.message);
+                            reject(err.message);
+                        } else {
+                            console.log('Inventory inserted with ID: ', product_id);
+                            resolve(product_id);
+                        }
+                    });
+                }
+            }
+        });
+
+        db.close((err) => {
+            if (err) {
+                console.error('Error closing database: ', err.message);
+            } else {
+                console.log('Database connection closed.');
+            }
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
     document.addEventListener("submit", function(event) {
@@ -154,6 +211,46 @@ document.addEventListener("DOMContentLoaded", function() {
     
                         // Finalize the PDF and end the stream
                         doc.end();
+
+                        // update inventory
+
+
+                        rows.forEach((order) => {
+                            db.get(`SELECT * FROM Inventory WHERE product_id = ?`, [order.product_id], (err, row) => {
+                                if (err) {
+                                    console.error('Error finding product: ', err.message);
+                                    reject(err.message);
+                                } else {
+                                    if (row) {
+                                        // Product exists, update quantity
+                                        let newQuantity = Number(row.quantity) + Number(order.quantity);
+                                        let newPrice = row.price * newQuantity;
+                                    
+                                        db.run(`UPDATE Inventory SET quantity = ?, price = ? WHERE product_id = ?`, [newQuantity, newPrice, order.product_id], function(err) {
+                                            if (err) {
+                                                console.error('Error updating inventory: ', err.message);
+                                                reject(err.message);
+                                            } else {
+                                                console.log('Inventory updated with Product ID: ', order.product_id);
+                                            }
+                                        });
+                                    } else {
+                                        // Product doesn't exist in inventory table
+
+                                        addToInventory(order.product_name, order.quantity, 
+                                            order.total_price, order.product_id).then((productId) => {
+                                                // Product added successfully
+                                                console.log('Product added with ID: ' + productId);
+                                                
+                                            })
+                                            
+                                        
+                                    }
+                                }
+                            });
+                        });
+
+                        
     
                         // Clear the order details
                         db.run(`DELETE FROM Order_Details`, [], function(err) {
@@ -189,6 +286,7 @@ document.addEventListener("DOMContentLoaded", function() {
         placeOrder()
             .then((message) => {
                 // Order placed successfully
+
                 customAlert(message);
             })
             .catch((error) => {
@@ -244,7 +342,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     reject(err.message);
                 } else {
                     console.log('Connected to the SQLite database.');
-                    customAlert('Connected to the SQLite database.');
                 }
             });
     

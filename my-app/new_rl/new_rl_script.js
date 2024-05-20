@@ -13,6 +13,8 @@ loginBtn.addEventListener('click', () =>{
     container.classList.remove("active");
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+
 document.getElementById('signupButton').addEventListener('click', function (event) {
     event.preventDefault();
         if (document.querySelector('.form-container.sign-up input[placeholder="Full name"]').value !== ''){
@@ -36,6 +38,8 @@ document.getElementById('signupButton').addEventListener('click', function (even
       event.preventDefault();
       authenticateUser();
   });
+
+});
 
 const eyeToggle = document.getElementById('togglePassword');
 const eyeToggleLogin = document.getElementById('togglePasswordLogin');
@@ -255,14 +259,17 @@ document.addEventListener("DOMContentLoaded", function() {
         var email = document.getElementById("emailInputLogin").value;
         var password = document.getElementById("passwordInputLogin").value;
         var role = document.getElementById("roleInputLogin").value;
+
         // Authenticate user
         authenticateUser(email, password)
             .then((user) => {
                 console.log('User authenticated: ', user);
                 console.log(email, password, role);
                 if(user.role === "admin"){
+                    customAlert("Welcome admin");
                     window.location.href = "../adminPage/admin.html";
                 } else if(user.role === "employee"){
+                    customAlert("Welcome employee");
                     window.location.href = "../employeePage/employee.html";
                 }
                 
@@ -272,4 +279,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
             });
     });
+});
+
+
+function customAlert(msg) {
+    // Get the custom alert box and message elements
+    let alertBox = document.getElementById('customAlertBox');
+    let alertMsg = document.getElementById('customAlertMsg');
+
+    // Set the alert message
+    alertMsg.textContent = msg;
+
+    // Show the custom alert box
+    alertBox.style.display = 'block';
+}
+
+// Close the custom alert box when the close button is clicked
+document.getElementById('customAlertClose').addEventListener('click', function() {
+    document.getElementById('customAlertBox').style.display = 'none';
 });

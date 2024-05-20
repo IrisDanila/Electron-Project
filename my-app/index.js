@@ -57,6 +57,20 @@ function createDatabase() {
         total_price REAL,
         FOREIGN KEY (product_id) REFERENCES Products(product_id)
     )`);
+
+
+    db.run(`CREATE TABLE IF NOT EXISTS Inventory(
+        product_id INTEGER PRIMARY KEY,
+        product_name TEXT,
+        quantity INTEGER,
+        price REAL,
+        FOREIGN KEY (product_id) REFERENCES Products(product_id)
+    )`);
+
+    db.run(`INSERT OR IGNORE INTO Inventory (product_id, product_name, quantity, price) VALUES (1, 'Product 1', 10, 100.00)`);
+    db.run(`INSERT OR IGNORE INTO Inventory (product_id, product_name, quantity, price) VALUES (2, 'Product 2', 20, 200.00)`);
+    db.run(`INSERT OR IGNORE INTO Inventory (product_id, product_name, quantity, price) VALUES (3, 'Product 3', 30, 300.00)`);
+    db.run(`INSERT OR IGNORE INTO Inventory (product_id, product_name, quantity, price) VALUES (4, 'Product 4', 40, 400.00)`);
 }
 
 // Create the main window
