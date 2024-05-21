@@ -10,7 +10,7 @@
 body{
     position: relative;
     background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #ff3d3d);
+    background: linear-gradient(to right, #e2e2e2, #003366);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,7 +50,7 @@ body{
 }
 
 .container button{
-    background-color: #e82323;
+    background-color: #003366;
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -166,9 +166,9 @@ body{
 }
 
 .toggle{
-    background-color: #a82d2d;
+    background-color: #003366;
     height: 100%;
-    background: linear-gradient(to right, #ff5f5f, #f62626);
+    background: linear-gradient(to right, #0e7ae6, #003366);
     color: #fff;
     position: relative;
     left: -100%;
@@ -358,14 +358,6 @@ body{
     cursor: pointer;
     font-size: 2em;
 }
-
-
-
-
-
-
-
-
 
 .custom-alert-box {
     display: none;

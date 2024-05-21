@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let modalHeader = document.createElement('div');
         modalHeader.classList.add('modal-header');
 
-        let modalTitle = document.createElement('h5');
+        let modalTitle = document.createElement('h1');
         modalTitle.classList.add('modal-title');
         modalTitle.textContent = title;
 

@@ -3,7 +3,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #003366;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@ button {
     border: none;
     border-radius: 5px;
     color: white;
-    background-color: #007bff;
+    background-color: #003366;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -26,7 +26,7 @@ button:hover {
 }
 
 .modal {
-    display: block; /* Ensure modals are visible by default for this example */
+    display: block; 
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -39,21 +39,36 @@ button:hover {
 }
 
 .modal-dialog {
-    position: relative;
+    position: relative; 
+    top: 50%;
+    transform: translateY(-50%);
     margin: auto;
     padding: 20px;
-    width: 80%;
-    max-width: 600px;
+    max-width: 40%;
     background: white;
 }
 
 .modal-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.modal-body{
+    display: flex;
+    justify-content: center ;
+}
+
+.modal-body table{
+    width: 100%;
+    th{
+        text-align: left;
+    }
 }
 
 .close {
+    position: absolute;
+    right: 0;
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -66,14 +81,6 @@ button:hover {
     text-decoration: none;
     cursor: pointer;
 }
-
-
-
-
-
-
-
-
 
 #customAlertBox {
     display: none;
@@ -113,5 +120,28 @@ button:hover {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.controlPannel{
+    margin: auto;
+    width: 30%;
+    min-height: 50%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.controlPannel button {
+    width: 100%;
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0;
+    margin-top: 20px;
 }
 

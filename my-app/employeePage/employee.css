@@ -1,3 +1,7 @@
+body{
+    background-color: #003366;
+}
+
 .container {
     max-width: 400px;
     margin: 100px auto;
@@ -9,6 +13,7 @@
 
 h1 {
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .form-group {
@@ -23,7 +28,7 @@ label {
 input[type="text"],
 input[type="number"] {
     width: 100%;
-    padding: 10px;
+    height: 30px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -31,12 +36,12 @@ input[type="number"] {
 button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #003366;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 button:hover {
@@ -83,4 +88,20 @@ button:hover {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+#InventorySummary{
+    width: 100%;
+}
+
+#orderSummary{
+    width: 100%;
+}
+
+#viewOrder{
+    margin-bottom: 10px;
+}
+
+#viewInventory{
+    margin-bottom: 10px;
 }
