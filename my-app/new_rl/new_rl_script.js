@@ -2,7 +2,6 @@ const container = document.getElementById('container');
 const registerBtn = document.getElementById('register');
 const loginBtn = document.getElementById('login');
 const sqlite3 = require('sqlite3').verbose();
-var goodRegisterEmail = false;
 var goodRegisterPassword = false;
 
 registerBtn.addEventListener('click', () =>{
@@ -18,17 +17,12 @@ document.addEventListener("DOMContentLoaded", function() {
 document.getElementById('signupButton').addEventListener('click', function (event) {
     event.preventDefault();
         if (document.querySelector('.form-container.sign-up input[placeholder="Full name"]').value !== ''){
-            if (goodRegisterEmail){
                 if (goodRegisterPassword){
                     alert('User registered successfully !');
                 }
                 else {
                     alert('Password not strong enough, please introduce a valid password !');
                 }
-            }
-            else {
-                alert('Email not valid, please introduce a valid email !');
-            }
         }else{
             alert('Please write your full name !');
         }
@@ -80,7 +74,7 @@ function capitalizeInput(event){
 const emailInput = document.getElementById('emailInput');
 const emailInputLogin = document.getElementById('emailInputLogin');
 
-emailInput.addEventListener('input', checkEmail);
+//emailInput.addEventListener('input', checkEmail);
 passwordInput.addEventListener('input', checkPassword);
 
 emailInputLogin.addEventListener('click', function(){
