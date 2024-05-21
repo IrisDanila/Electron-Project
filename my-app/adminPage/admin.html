@@ -5,36 +5,10 @@
     <link rel="stylesheet" type="text/css" href="admin.css">
 </head>
 <body>
-    <form id="productForm">
-        <input type="text" id="productName" placeholder="Product Name" required>
-        <input type="number" id="price" placeholder="Price" required>
-        <button type="submit">Add Product</button>
-    </form>
     <button id="viewProducts">View Products</button>
     <button id="viewOrders">View Orders</button>
     <button id="placeOrder">Place Order</button>
-    <table id="productSummary">
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <table id="orderSummary">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
+    <button id="addProduct">Add Product</button>
 
     <div id="customAlertBox">
         <div id="customAlertContent">
@@ -42,6 +16,13 @@
             <p id="customAlertMsg"></p>
         </div>
     </div>
+
+    <div class="container">
+        <button id="Go Back">Go Back</button>
+      </div>
+
+    <div id="modalContainer"></div>
+    
     <script src="admin.js"></script>
 </body>
 </html>
